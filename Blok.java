@@ -7,7 +7,7 @@
  */
 public class Blok
 {
-    private Kocka[][] kocky;
+    private Kocka[] kocky = new Kocka[4];
     private boolean[][] tvar;
     
     private boolean[][] blokO = {{ true, true },
@@ -40,7 +40,7 @@ public class Blok
                                 
     public Blok(int riadok,int stlpec, int cislo)
     {
-        System.out.println("Random cislo: " + cislo);
+        System.out.println("Vybral som tvar: " + cislo);
         switch(cislo){
         case 1: this.tvar = blokO; break;
         case 2: this.tvar = blokI; break;
@@ -57,12 +57,44 @@ public class Blok
     
     public void blokKocka(){}
     
-    public void vytvorBlok(){ 
+    public void vytvorBlok(){
+        int poradie = 0;
         for (int riadok = 0; riadok < tvar.length; riadok++){
             for (int stlpec = 0; stlpec < tvar[riadok].length; stlpec++){
-                if (tvar[riadok][stlpec] == true){new Kocka(stlpec+5, riadok+5, true, "red");}
+                    if (tvar[riadok][stlpec] == true){
+                        kocky[poradie] = new Kocka(stlpec+1, riadok+5, true, "red");
+                        poradie++;
+                }
             }
         }
     }
-
+    
+    public void posunHore(){
+        for (Kocka kocka : kocky){
+            kocka.posunKockyHore();
+            kocka.update();
+        }
+    }
+    
+    public void posunDole(){
+        for (Kocka kocka : kocky){
+            kocka.posunKockyDole();
+            kocka.update();
+        }
+    }
+    
+    public void posunVlavo(){
+        for (Kocka kocka : kocky){
+            kocka.posunKockyVlavo();
+            kocka.update();
+        }
+    }
+    
+    public void posunVpravo(){
+        for (Kocka kocka : kocky){
+            kocka.posunKockyVpravo();
+            kocka.update();
+        }
+    }
+    
 }

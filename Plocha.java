@@ -12,13 +12,13 @@ public class Plocha
     private int riadky;
     private int stlpce;
     private Kocka[][] zoznamKociek;
-    private ArrayList<Blok> zoznamBlokov = new ArrayList<Blok>();
+    private ArrayList<Blok> zoznamBlokov;
               
     public Plocha(int riadky, int stlpce)
     {
         this.riadky = riadky;
         this.stlpce = stlpce;
-        
+        this.zoznamBlokov = new ArrayList<Blok>();
         vytvorPlochu();
     }
     
@@ -26,21 +26,21 @@ public class Plocha
         this.zoznamKociek = new Kocka[riadky][stlpce];
         for (int stlpec = 0; stlpec < riadky; stlpec++){
             for (int riadok = 0; riadok < stlpce; riadok++){
-                zoznamKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "blue");
+                zoznamKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "white");
             }
         }
         
         Kocka a = zoznamKociek[0][0];
-        a.zmenFarbuPolicka("red");
+        a.zmenFarbuKocky("red");
         
         Kocka b = zoznamKociek[this.riadky-1][0];
-        b.zmenFarbuPolicka("yellow");
+        b.zmenFarbuKocky("yellow");
         
         Kocka c = zoznamKociek[0][this.stlpce-1];
-        c.zmenFarbuPolicka("green");
+        c.zmenFarbuKocky("green");
         
         Kocka d = zoznamKociek[this.riadky-1][this.stlpce-1];
-        d.zmenFarbuPolicka("white");
+        d.zmenFarbuKocky("blue");
     }
     
     public void updatePlocha(){
@@ -55,5 +55,9 @@ public class Plocha
         Random random = new Random();
         int randomCislo = random.nextInt((7 - 1) + 1) + 1;
         zoznamBlokov.add(new Blok(2, 2, randomCislo));
+    }
+
+    public Blok getZoznamBlokov(){
+        return this.zoznamBlokov.get(zoznamBlokov.size() - 1);
     }
 }

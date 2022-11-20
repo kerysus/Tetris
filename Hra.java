@@ -12,20 +12,18 @@ public class Hra
  
     private Pozadie pozadie;
     private Plocha plocha;    
+    private Manazer manazer;
     
     private int pocetRiadkov;
     private int pocetStlpcov;
     
-     
-    //boolean[][] tvarI = {{true,false,true},{false, true, false}};
-    
-    
     public Hra()
     {
+        this.manazer = new Manazer();
         this.pocetRiadkov = 20;
         this.pocetStlpcov = 10;
     }
-    
+
     public void vykresliPlochu(){
         this.plocha = new Plocha(pocetRiadkov, pocetStlpcov);
     }
@@ -37,6 +35,7 @@ public class Hra
     
     public void vytvorBlok(){
         this.plocha.vytvorBlok();
+        spravujBLok();
     }
     
     public void updatePlocha(){
@@ -48,8 +47,17 @@ public class Hra
         vykresliPlochu();
     }
     
+    public void spravujBLok(){
+        this.manazer.spravujObjekt(this.plocha.getZoznamBlokov());
+    }
+    
+    public void nespravujBlok(){
+        this.manazer.prestanSpravovatObjekt(this.plocha.getZoznamBlokov());
+    }
+    
     public void spustiTetris(){
         vykresliVsetko();
+        vytvorBlok();
     }
 
 }
