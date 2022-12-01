@@ -22,6 +22,7 @@ public class Hra
         this.manazer = new Manazer();
         this.pocetRiadkov = 20;
         this.pocetStlpcov = 10;
+        spustiTetris();
     }
 
     public void vykresliPlochu(){

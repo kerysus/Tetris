@@ -7,16 +7,19 @@
  */
 public class Blok
 {
-    private Kocka[] kocky = new Kocka[4];
+    private int typBloku;
+    private int lastX=3;
+    private int lastY=1;
+    private Kocka[] kocky;
     private boolean[][] tvar;
     
     private boolean[][] blokO = {{ true, true },
                                   { true, true }};
                                   
-    private boolean[][] blokI = {{ false, false,  false, false },
+    private boolean[][] blokI = {{ true, true,  true, true },
                                   { false, false,  false, false },
                                   { false, false,  false, false },
-                                  { true, true,  true, true }};
+                                  { false, false,  false, false }};
                                   
     private boolean[][] blokL = {{ false, true,  false},
                               { false, true,  false},
@@ -30,9 +33,9 @@ public class Blok
                                   { false, true,  true  },
                                   { false, false, true  }};
                                   
-    private boolean[][] blokJ = {{ false, true,  false},
-                                { false, true,  false},
-                                { true,  true,  false}};
+    private boolean[][] blokJ = {{ false, true,  false},// f, f, t
+                                { false, true,  false}, // t, t, t   ==> transponovana matica
+                                { true,  true,  false}};// f, f, f
     
     private boolean[][] blokT = {{ false, true,  false },
                                 { true,  true,  true  },
@@ -40,7 +43,6 @@ public class Blok
                                 
     public Blok(int riadok,int stlpec, int cislo)
     {
-        System.out.println("Vybral som tvar: " + cislo);
         switch(cislo){
         case 1: this.tvar = blokO; break;
         case 2: this.tvar = blokI; break;
@@ -51,21 +53,42 @@ public class Blok
         case 7: this.tvar = blokT; break;
         default: System.out.println("Chyba vo vybere tvaru");
         }
-        vytvorBlok();
+        this.kocky = new Kocka[this.tvar.length*this.tvar.length];
+        vytvorBlok(this.tvar);
     }
     
+    public boolean[][] getTvar(){
+        return this.tvar;
+    }
     
     public void blokKocka(){}
     
-    public void vytvorBlok(){
+    public void vytvorBlok(boolean[][] tvar){
         int poradie = 0;
         for (int riadok = 0; riadok < tvar.length; riadok++){
             for (int stlpec = 0; stlpec < tvar[riadok].length; stlpec++){
-                    if (tvar[riadok][stlpec] == true){
-                        kocky[poradie] = new Kocka(stlpec+1, riadok+5, true, "red");
-                        poradie++;
+                if (tvar[riadok][stlpec] == true){
+                    kocky[poradie] = new Kocka(stlpec+this.lastX, riadok+this.lastY, true, "red");
+                    poradie++;
+                }
+                else{
+                    kocky[poradie] = new Kocka(stlpec+this.lastX, riadok+this.lastY, false, "green");
+                    poradie++;
                 }
             }
+        }
+    }
+    
+    public void vykresliKocky(){
+        for (Kocka kocka : kocky){
+            kocka.update();
+        }
+    }
+    
+    public void znicBlok(boolean[][] blok){
+        for (Kocka kocka : this.kocky){
+            kocka.zmenFarbuKocky("white");
+            kocka = null;
         }
     }
     
@@ -97,4 +120,31 @@ public class Blok
         }
     }
     
+    public void vypis(boolean[][] thingy){
+        for (int riadok = 0; riadok < 3; riadok++){
+            for (int stlpec = 0; stlpec < 3; stlpec++){
+                System.out.print(thingy[riadok][stlpec]+" | ");
+            }
+            System.out.println("");
+        }
+    }
+    
+    public void rotujVpravo(){
+        boolean[][] novyBlok = new boolean[this.tvar.length][this.tvar.length];
+        int counter = this.tvar.length-1;
+        for (int riadok = 0; riadok < this.tvar.length; riadok++){
+            for (int prvok = 0; prvok < this.tvar.length; prvok++){
+                novyBlok[(counter-prvok)][riadok] = this.tvar[riadok][prvok];  
+            }
+        }
+        this.tvar = novyBlok;
+        this.lastX = this.kocky[0].getX();
+        this.lastY = this.kocky[0].getY();
+        this.znicBlok(this.tvar);
+        novyBlok = null;
+        vytvorBlok(this.tvar);
+    }
+    public void aktivuj(){
+        rotujVpravo();
+    }
 }

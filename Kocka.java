@@ -28,6 +28,14 @@ public class Kocka
         this.stvorec.zobraz();
     }
     
+    public int getX(){
+        return this.x;
+    }
+    
+    public int getY(){
+        return this.y;
+    }
+    
     public void update(){
         this.stvorec.zobraz();
     }
@@ -54,5 +62,8 @@ public class Kocka
     public void posunKockyVpravo(){
         this.x += 1;
         this.stvorec.posunVodorovne(sirka);
+    }
+    
+    public void rotujVpravo(){
     }
 }
