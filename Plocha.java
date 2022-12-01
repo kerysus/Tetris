@@ -56,8 +56,17 @@ public class Plocha
         int randomCislo = random.nextInt((7 - 1) + 1) + 1;
         zoznamBlokov.add(new Blok(2, 2, randomCislo));
     }
-
-    public Blok getZoznamBlokov(){
-        return this.zoznamBlokov.get(zoznamBlokov.size() - 1);
+    
+    public ArrayList<Blok> getZoznamBlokov(){
+        return this.zoznamBlokov;
     }
+    
+    public Blok getPrvyZoZoznamuBlokov(){
+        return this.getZoznamBlokov().get(0);
+    }
+
+    public Blok getPoslednyZoZoznamuBlokov(){
+        return this.zoznamBlokov.get(zoznamBlokov.size()-1);
+    }
+    
 }

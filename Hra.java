@@ -36,7 +36,8 @@ public class Hra
     
     public void vytvorBlok(){
         this.plocha.vytvorBlok();
-        spravujBLok();
+        this.spravujBLok(this.plocha.getPoslednyZoZoznamuBlokov());
+        this.nespravujOstatneBloky();
     }
     
     public void updatePlocha(){
@@ -48,12 +49,15 @@ public class Hra
         vykresliPlochu();
     }
     
-    public void spravujBLok(){
-        this.manazer.spravujObjekt(this.plocha.getZoznamBlokov());
+    public void spravujBLok(Blok blok){
+        this.manazer.spravujObjekt(blok);
     }
     
-    public void nespravujBlok(){
-        this.manazer.prestanSpravovatObjekt(this.plocha.getZoznamBlokov());
+    public void nespravujOstatneBloky(){
+        if (this.plocha.getZoznamBlokov().size() == 1){
+            return;
+        }
+        this.manazer.prestanSpravovatObjekt(this.plocha.getZoznamBlokov().get(this.plocha.getZoznamBlokov().size()-2));
     }
     
     public void spustiTetris(){
