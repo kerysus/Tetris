@@ -61,8 +61,6 @@ public class Blok
         return this.tvar;
     }
     
-    public void blokKocka(){}
-    
     public void vytvorBlok(boolean[][] tvar){
         int poradie = 0;
         for (int riadok = 0; riadok < tvar.length; riadok++){

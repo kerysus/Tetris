@@ -29,6 +29,14 @@ public class Hra
         this.plocha = new Plocha(pocetRiadkov, pocetStlpcov);
     }
     
+    public int getPlochaPocetRiadkov(){
+        return this.plocha.getRiadky();
+    }
+    
+    public int getPlochaPocetStlpcov(){
+        return this.plocha.getStlpce();
+    }
+    
     public void nakresliPozadie(){
         this.pozadie = new Pozadie();
         this.pozadie.vykresliPozadie();
@@ -53,6 +61,10 @@ public class Hra
         this.manazer.spravujObjekt(blok);
     }
     
+    public void spravujHru(){
+        this.manazer.spravujObjekt(this);
+    }
+    
     public void nespravujOstatneBloky(){
         if (this.plocha.getZoznamBlokov().size() == 1){
             return;
@@ -63,6 +75,7 @@ public class Hra
     public void spustiTetris(){
         vykresliVsetko();
         vytvorBlok();
+        spravujHru();
     }
 
 }

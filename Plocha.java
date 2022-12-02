@@ -22,6 +22,14 @@ public class Plocha
         vytvorPlochu();
     }
     
+    public int getRiadky(){
+        return this.riadky;
+    }
+    
+    public int getStlpce(){
+        return this.stlpce;
+    }
+    
     public void vytvorPlochu(){
         this.zoznamKociek = new Kocka[riadky][stlpce];
         for (int stlpec = 0; stlpec < riadky; stlpec++){

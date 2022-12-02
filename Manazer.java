@@ -38,6 +38,8 @@ public class Manazer {
                 Manazer.this.posliSpravu("posunVpravo");
             } else if (event.getKeyCode() == KeyEvent.VK_SPACE || event.getKeyCode() == KeyEvent.VK_ENTER) {
                 Manazer.this.posliSpravu("aktivuj");
+            } else if (event.getKeyCode() == KeyEvent.VK_E) {
+                Manazer.this.posliSpravu("vytvorBlok");
             } else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 Manazer.this.posliSpravu("zrus");
             }
