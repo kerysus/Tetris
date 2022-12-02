@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 public class Hra
 {
- 
     private Pozadie pozadie;
     private Plocha plocha;    
     private Manazer manazer;
-    
+    private Kocka[][] poleKociek;
+    private ArrayList<Blok> zoznamBlokov;
     private int pocetRiadkov;
     private int pocetStlpcov;
     
@@ -24,17 +24,21 @@ public class Hra
         this.pocetStlpcov = 10;
         spustiTetris();
     }
+    
+    public Kocka[] getKockyPoslednehoBloku(Kocka[] zoznamKociek){
+        return zoznamKociek;
+    }
+    
+    public void getPoleKociek(Kocka[][] poleKociek){
+        this.poleKociek = poleKociek;
+    }
+    
+    public void getZoznamBlokov(ArrayList<Blok> zoznamBlokov){
+        this.zoznamBlokov = zoznamBlokov;
+    }
 
     public void vykresliPlochu(){
         this.plocha = new Plocha(pocetRiadkov, pocetStlpcov);
-    }
-    
-    public int getPlochaPocetRiadkov(){
-        return this.plocha.getRiadky();
-    }
-    
-    public int getPlochaPocetStlpcov(){
-        return this.plocha.getStlpce();
     }
     
     public void nakresliPozadie(){
@@ -42,11 +46,13 @@ public class Hra
         this.pozadie.vykresliPozadie();
     }
     
-    public void vytvorBlok(){
+    public void vytvorBlok(){ 
         this.plocha.vytvorBlok();
         this.spravujBLok(this.plocha.getPoslednyZoZoznamuBlokov());
+        this.getKockyPoslednehoBloku(this.plocha.getPoslednyZoZoznamuBlokov().getKocky());
         this.nespravujOstatneBloky();
     }
+    
     
     public void updatePlocha(){
         this.plocha.updatePlocha();

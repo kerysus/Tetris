@@ -11,7 +11,7 @@ public class Plocha
     // instance variables - replace the example below with your own
     private int riadky;
     private int stlpce;
-    private Kocka[][] zoznamKociek;
+    private Kocka[][] poleKociek;
     private ArrayList<Blok> zoznamBlokov;
               
     public Plocha(int riadky, int stlpce)
@@ -22,47 +22,8 @@ public class Plocha
         vytvorPlochu();
     }
     
-    public int getRiadky(){
-        return this.riadky;
-    }
-    
-    public int getStlpce(){
-        return this.stlpce;
-    }
-    
-    public void vytvorPlochu(){
-        this.zoznamKociek = new Kocka[riadky][stlpce];
-        for (int stlpec = 0; stlpec < riadky; stlpec++){
-            for (int riadok = 0; riadok < stlpce; riadok++){
-                zoznamKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "white");
-            }
-        }
-        
-        Kocka a = zoznamKociek[0][0];
-        a.zmenFarbuKocky("red");
-        
-        Kocka b = zoznamKociek[this.riadky-1][0];
-        b.zmenFarbuKocky("yellow");
-        
-        Kocka c = zoznamKociek[0][this.stlpce-1];
-        c.zmenFarbuKocky("green");
-        
-        Kocka d = zoznamKociek[this.riadky-1][this.stlpce-1];
-        d.zmenFarbuKocky("blue");
-    }
-    
-    public void updatePlocha(){
-        for (int stlpec = 0; stlpec < riadky; stlpec++){
-            for (int riadok = 0; riadok < stlpce; riadok++){
-                this.zoznamKociek[stlpec][riadok].update();
-            }
-        }
-    }
-    
-    public void vytvorBlok(){
-        Random random = new Random();
-        int randomCislo = random.nextInt((7 - 1) + 1) + 1;
-        zoznamBlokov.add(new Blok(2, 2, randomCislo));
+    public Kocka[][] getPoleKociek(){
+        return this.poleKociek;
     }
     
     public ArrayList<Blok> getZoznamBlokov(){
@@ -75,6 +36,49 @@ public class Plocha
 
     public Blok getPoslednyZoZoznamuBlokov(){
         return this.zoznamBlokov.get(zoznamBlokov.size()-1);
+    }
+    
+    public void setPoleKociek(Kocka[][] listKociek){
+        this.poleKociek = listKociek;
+    }
+    
+    public void setZoznamBlokov(ArrayList<Blok> listBlokov){
+        this.zoznamBlokov = listBlokov;
+    }
+    
+    public void vytvorPlochu(){
+        this.poleKociek = new Kocka[riadky][stlpce];
+        for (int stlpec = 0; stlpec < riadky; stlpec++){
+            for (int riadok = 0; riadok < stlpce; riadok++){
+                poleKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "white");
+            }
+        }
+        
+        Kocka a = poleKociek[0][0];
+        a.zmenFarbuKocky("red");
+        
+        Kocka b = poleKociek[this.riadky-1][0];
+        b.zmenFarbuKocky("yellow");
+        
+        Kocka c = poleKociek[0][this.stlpce-1];
+        c.zmenFarbuKocky("green");
+        
+        Kocka d = poleKociek[this.riadky-1][this.stlpce-1];
+        d.zmenFarbuKocky("blue");
+    }
+    
+    public void updatePlocha(){
+        for (int stlpec = 0; stlpec < riadky; stlpec++){
+            for (int riadok = 0; riadok < stlpce; riadok++){
+                this.poleKociek[stlpec][riadok].update();
+            }
+        }
+    }
+    
+    public void vytvorBlok(){
+        Random random = new Random();
+        int randomCislo = random.nextInt((7 - 1) + 1) + 1;
+        zoznamBlokov.add(new Blok(2, 2, randomCislo, this.riadky, this.stlpce));
     }
     
 }

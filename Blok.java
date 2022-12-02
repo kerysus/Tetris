@@ -12,6 +12,8 @@ public class Blok
     private int lastY=1;
     private Kocka[] kocky;
     private boolean[][] tvar;
+    private int pocetRiadkovPlochy;
+    private int pocetStlpcovPlochy;
     
     private boolean[][] blokO = {{ true, true },
                                   { true, true }};
@@ -41,8 +43,10 @@ public class Blok
                                 { true,  true,  true  },
                                 { false, false, false }};
                                 
-    public Blok(int riadok,int stlpec, int cislo)
+    public Blok(int riadok,int stlpec, int cislo, int pocetRiadkovPlochy, int pocetStlpcovPlochy)
     {
+        this.pocetRiadkovPlochy = pocetRiadkovPlochy;
+        this.pocetStlpcovPlochy = pocetStlpcovPlochy;
         switch(cislo){
         case 1: this.tvar = blokO; break;
         case 2: this.tvar = blokI; break;
@@ -59,6 +63,10 @@ public class Blok
     
     public boolean[][] getTvar(){
         return this.tvar;
+    }
+    
+    public Kocka[] getKocky(){
+        return this.kocky;
     }
     
     public void vytvorBlok(boolean[][] tvar){
@@ -99,8 +107,11 @@ public class Blok
     
     public void posunDole(){
         for (Kocka kocka : kocky){
-            kocka.posunKockyDole();
-            kocka.update();
+            if (kocka.getY() < this.pocetRiadkovPlochy-1){
+                kocka.posunKockyDole();
+                kocka.update();
+            }
+            continue;
         }
     }
     
