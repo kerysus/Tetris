@@ -36,6 +36,14 @@ public class Kocka
         return this.y;
     }
     
+    public boolean getJeBlok(){
+        return this.jeBlok;
+    }
+    
+    public void setJeBlok(boolean hodnota){
+        this.jeBlok = hodnota;
+    }
+    
     public void update(){
         this.stvorec.zobraz();
     }
@@ -62,8 +70,5 @@ public class Kocka
     public void posunKockyVpravo(){
         this.x += 1;
         this.stvorec.posunVodorovne(sirka);
-    }
-    
-    public void rotujVpravo(){
     }
 }

@@ -21,7 +21,8 @@ public class Blok
     private boolean[][] blokI = {{ true, true,  true, true },
                                   { false, false,  false, false },
                                   { false, false,  false, false },
-                                  { false, false,  false, false }};
+                                  { false, false,  false, false }
+                                };
                                   
     private boolean[][] blokL = {{ false, true,  false},
                               { false, true,  false},
@@ -138,7 +139,7 @@ public class Blok
         }
     }
     
-    public void rotujVpravo(){
+    public void rotuj(){
         boolean[][] novyBlok = new boolean[this.tvar.length][this.tvar.length];
         int counter = this.tvar.length-1;
         for (int riadok = 0; riadok < this.tvar.length; riadok++){
@@ -152,8 +153,5 @@ public class Blok
         this.znicBlok(this.tvar);
         novyBlok = null;
         vytvorBlok(this.tvar);
-    }
-    public void aktivuj(){
-        rotujVpravo();
     }
 }

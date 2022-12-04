@@ -29,15 +29,15 @@ public class Manazer {
     private class ManazerKlaves extends KeyAdapter {
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_DOWN) {
-                Manazer.this.posliSpravu("posunDole");
+                Manazer.this.posliSpravu("posunBlokDole");
             } else if (event.getKeyCode() == KeyEvent.VK_UP) {
-                Manazer.this.posliSpravu("posunHore");
+                Manazer.this.posliSpravu("posunBlokHore");
             } else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-                Manazer.this.posliSpravu("posunVlavo");
+                Manazer.this.posliSpravu("posunBlokVlavo");
             } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-                Manazer.this.posliSpravu("posunVpravo");
+                Manazer.this.posliSpravu("posunBlokVpravo");
             } else if (event.getKeyCode() == KeyEvent.VK_SPACE || event.getKeyCode() == KeyEvent.VK_ENTER) {
-                Manazer.this.posliSpravu("aktivuj");
+                Manazer.this.posliSpravu("rotujBlok");
             } else if (event.getKeyCode() == KeyEvent.VK_E) {
                 Manazer.this.posliSpravu("vytvorBlok");
             } else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
