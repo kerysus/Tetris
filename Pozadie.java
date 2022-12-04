@@ -1,27 +1,22 @@
- 
-
-
-public class Pozadie
-{
+public class Pozadie {
     private Obdlznik pozadieHry;
     private Obdlznik pozadiePlochy;
-    
+
     private String farbaPozadiaHry;
     private String farbaPozadiaPlochy;
-    
+
     private int rozmeryPozadiaHryX;
     private int rozmeryPozadiaHryY;
     private int rozmeryPozadiaPlochyX;
     private int rozmeryPozadiaPlochyY;
-    
+
     private int polohaPozadiaHryX;
     private int polohaPozadiaHryY;
     private int polohaPozadiaPlochyX;
     private int polohaPozadiaPlochyY;
-    
-    public Pozadie()
-    {
-        
+
+    public Pozadie() {
+
         //farba pozadia hry je za stvorcekami
         //farba plochy je cela hra
         this.pozadieHry = new Obdlznik();
@@ -32,28 +27,28 @@ public class Pozadie
         this.pozadiePlochy.zobraz();
         this.pozadieHry.zobraz();
     }
-    
-    public void zmenFarbuPozadi(String farbaHry, String farbaPlochy){
+
+    public void zmenFarbuPozadi(String farbaHry, String farbaPlochy) {
         this.pozadieHry.zmenFarbu(farbaHry);
         this.pozadiePlochy.zmenFarbu(farbaPlochy);
     }
-    
-    public void zmenRozmeryPozadia(int rozmeryPozadiaHryX, int rozmeryPozadiaHryY, int rozmeryPozadiaPlochyX, int rozmeryPozadiaPlochyY){
+
+    public void zmenRozmeryPozadia(int rozmeryPozadiaHryX, int rozmeryPozadiaHryY, int rozmeryPozadiaPlochyX, int rozmeryPozadiaPlochyY) {
         this.pozadieHry.zmenStrany(rozmeryPozadiaHryX, rozmeryPozadiaHryY);
         this.pozadiePlochy.zmenStrany(rozmeryPozadiaPlochyX, rozmeryPozadiaPlochyY);
     }
-    
-    public void zmenPolohyPozadi(int posunPozadiaHryX, int posunPozadiaHryY, int posunPozadiaPlochyX, int posunPozadiaPlochyY){
+
+    public void zmenPolohyPozadi(int posunPozadiaHryX, int posunPozadiaHryY, int posunPozadiaPlochyX, int posunPozadiaPlochyY) {
         this.pozadieHry.pomalyPosunVodorovne(posunPozadiaHryX);
         this.pozadieHry.posunZvisle(posunPozadiaHryY);
-        
+
         this.pozadiePlochy.pomalyPosunVodorovne(posunPozadiaPlochyX);
         this.pozadiePlochy.posunZvisle(posunPozadiaPlochyY);
     }
-    
-    public void vykresliPozadie(){
+
+    public void vykresliPozadie() {
         this.pozadiePlochy.zobraz();
         this.pozadieHry.zobraz();
     }
-    
+
 }

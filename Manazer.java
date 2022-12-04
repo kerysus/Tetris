@@ -115,7 +115,7 @@ public class Manazer {
     private void removeDeletedObjects() {
         if (this.vymazaneObjekty.size() > 0) {
             Collections.sort(this.vymazaneObjekty, Collections.reverseOrder());
-            for(int i = this.vymazaneObjekty.size() - 1; i >= 0; i--) {
+            for (int i = this.vymazaneObjekty.size() - 1; i >= 0; i--) {
                 this.spravovaneObjekty.remove(this.vymazaneObjekty.get(i));
             }
             this.vymazaneObjekty.clear();
@@ -146,7 +146,7 @@ public class Manazer {
     public void prestanSpravovatObjekt(Object objekt) {
         int index = this.spravovaneObjekty.indexOf(objekt);
         if (index >= 0) {
-            this.spravovaneObjekty.set(index,null);
+            this.spravovaneObjekty.set(index, null);
             this.vymazaneObjekty.add(index);
         }
     }

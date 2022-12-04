@@ -217,7 +217,7 @@ public class Platno {
         private Shape tvar;
         private String farba;
 
-        public PopisTvaru(Shape tvar, String farba) {
+        PopisTvaru(Shape tvar, String farba) {
             this.tvar = tvar;
             this.farba = farba;
         }

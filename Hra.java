@@ -1,48 +1,45 @@
-import java.util.ArrayList;
 /**
  * Write a description of class Plocha here.
  *
  * @author Marek Kerata
  * @version (a version number or a date)
  */
-public class Hra
-{
+public class Hra {
     private Pozadie pozadie;
-    private Plocha plocha;    
+    private Plocha plocha;
     private int pocetRiadkov;
     private int pocetStlpcov;
-    
-    public Hra()
-    {
+
+    public Hra() {
         this.pocetRiadkov = 20;
         this.pocetStlpcov = 10;
-        spustiTetris();
+        this.spustiTetris();
     }
-    
-    public Kocka[] getKockyPoslednehoBloku(Kocka[] zoznamKociek){
+
+    public Kocka[] getKockyPoslednehoBloku(Kocka[] zoznamKociek) {
         return zoznamKociek;
     }
 
-    public void vytvorPlochu(){
-        this.plocha = new Plocha(pocetRiadkov, pocetStlpcov);
+    public void vytvorPlochu() {
+        this.plocha = new Plocha(this.pocetRiadkov, this.pocetStlpcov);
     }
-    
-    public void nakresliPozadie(){
+
+    public void nakresliPozadie() {
         this.pozadie = new Pozadie();
         this.pozadie.vykresliPozadie();
     }
- 
-    public void vykresliVsetko(){
+
+    public void vykresliVsetko() {
         this.nakresliPozadie();
         this.vytvorPlochu();
     }
-    
-    public void vypisHodnotyPola(){
+
+    public void vypisHodnotyPola() {
         this.plocha.vypisPolaKociek();
     }
-    
-    public void spustiTetris(){
-        vykresliVsetko();
+
+    public void spustiTetris() {
+        this.vykresliVsetko();
         this.plocha.vytvorBlok();
     }
 

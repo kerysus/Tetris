@@ -1,4 +1,4 @@
- import java.awt.Rectangle;
+import java.awt.Rectangle;
 
 /**
  * Štvorec, s ktorým možno pohybovať a nakreslí sa na plátno.
