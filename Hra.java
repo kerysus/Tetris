@@ -43,6 +43,7 @@ public class Hra
     
     public void spustiTetris(){
         vykresliVsetko();
+        this.plocha.vytvorBlok();
     }
 
 }
