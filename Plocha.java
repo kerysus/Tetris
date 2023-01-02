@@ -16,12 +16,14 @@ public class Plocha {
     private ArrayList < Blok > zoznamBlokov;
     private Manazer manazer = new Manazer();
     private Blok spravovanyBlok;
+    private ArrayList < Kocka > zoznamPolozenychKociek;
 
     public Plocha(int riadky, int stlpce) {
         this.manazer.spravujObjekt(this);
         this.riadky = riadky;
         this.stlpce = stlpce;
         this.zoznamBlokov = new ArrayList < Blok > ();
+        this.zoznamPolozenychKociek = new ArrayList < Kocka > ();
         this.vytvorPlochu();
     }
 
@@ -53,7 +55,7 @@ public class Plocha {
         this.poleKociek = new Kocka[this.riadky][this.stlpce];
         for (int stlpec = 0; stlpec < riadky; stlpec++) {
             for (int riadok = 0; riadok < stlpce; riadok++) {
-                this.poleKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "white");
+                this.poleKociek[stlpec][riadok] = new Kocka(riadok, stlpec, false, "white", true);
             }
         }
 
@@ -83,9 +85,24 @@ public class Plocha {
         if (this.getZoznamBlokov().size() == 1) {
             return;
         }
-        this.manazer.prestanSpravovatObjekt(this.getZoznamBlokov().get(this.getZoznamBlokov().size() - 2));
+        Blok poslednyBlok = this.getZoznamBlokov().get(this.getZoznamBlokov().size() - 2);
+        this.pridajDoPolozenychKociek(poslednyBlok);
+        this.manazer.prestanSpravovatObjekt(poslednyBlok);
+    }
+    
+    public void pridajDoPolozenychKociek(Blok blok){
+        for (Kocka kocka : blok.getKocky()){
+            if (kocka.getZobraz()){
+                this.zoznamPolozenychKociek.add(kocka);
+            }
+        }
+        this.setPolozeneKockyBlokov(this.zoznamPolozenychKociek);
     }
 
+    public void setPolozeneKockyBlokov(ArrayList < Kocka > zoznamKociek){
+        this.spravovanyBlok.setPolozeneKocky(zoznamKociek);
+    }
+    
     public void posunBlokHore() {
         this.spravovanyBlok.posunHore();
         this.updatePoleKociek(this.spravovanyBlok);

@@ -24,7 +24,7 @@ public class Manazer {
     private ArrayList<Object> spravovaneObjekty;
     private ArrayList<Integer> vymazaneObjekty;
     private long oldTick;
-    private static final long TICK_LENGTH = 250000000;
+    private static final long TICK_LENGTH = 50000000;
     
     private class ManazerKlaves extends KeyAdapter {
         public void keyPressed(KeyEvent event) {
@@ -80,6 +80,7 @@ public class Manazer {
             } catch (IllegalAccessException e) {
                 this.doNothing();
             } catch (InvocationTargetException e) {
+                System.out.println("Chyba: " + e.getCause());
                 this.doNothing();
             }
         }

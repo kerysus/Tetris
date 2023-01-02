@@ -12,8 +12,10 @@ public class Kocka {
     private int y;
     private boolean jeBlok;
     private String farba;
+    private boolean pohybKocky;
+    private boolean zobraz;
 
-    public Kocka(int x, int y, boolean jeBlok, String farba) {
+    public Kocka(int x, int y, boolean jeBlok, String farba, boolean zobraz) {
         // vytvorenie pozadia hry
         this.stvorec = new Stvorec();
         this.x = x;
@@ -23,7 +25,11 @@ public class Kocka {
         this.stvorec.posunZvisle(y * sirka);
         this.stvorec.zmenFarbu(farba);
         this.jeBlok = jeBlok;
-        this.stvorec.zobraz();
+        this.zobraz = zobraz;
+        if(zobraz){
+            this.stvorec.zobraz();
+        }
+        this.pohybKocky = true;
     }
 
     public int getX() {
@@ -37,13 +43,27 @@ public class Kocka {
     public boolean getJeBlok() {
         return this.jeBlok;
     }
+    
+    public boolean getZobraz(){
+        return this.zobraz;
+    }
+    
+    public boolean getPohybKocky(){
+        return this.pohybKocky;
+    }
 
     public void setJeBlok(boolean hodnota) {
         this.jeBlok = hodnota;
     }
+    
+    public void setPohybKocky(boolean hodnota){
+        this.pohybKocky = hodnota;
+    }
 
     public void update() {
-        this.stvorec.zobraz();
+        if (this.zobraz){
+            this.stvorec.zobraz();
+        }
     }
 
     public void zmenFarbuKocky(String farba) {

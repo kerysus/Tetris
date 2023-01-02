@@ -1,9 +1,4 @@
-/**
- * Write a description of class Blok here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+import java.util.ArrayList;
 public class Blok {
     private int typBloku;
     private int lastX = 3;
@@ -12,7 +7,9 @@ public class Blok {
     private boolean[][] tvar;
     private int pocetRiadkovPlochy;
     private int pocetStlpcovPlochy;
-
+    private boolean pohybBlokuDole;
+    private ArrayList < Kocka > polozeneKocky;
+    
     private boolean[][] blokO = {
         {
             true,
@@ -169,6 +166,7 @@ public class Blok {
             default:
                 System.out.println("Chyba vo vybere tvaru");
         }
+        this.pohybBlokuDole = true;
         this.kocky = new Kocka[this.tvar.length * this.tvar.length];
         this.vytvorBlok(this.tvar);
     }
@@ -186,16 +184,16 @@ public class Blok {
         for (int riadok = 0; riadok < tvar.length; riadok++) {
             for (int stlpec = 0; stlpec < tvar[riadok].length; stlpec++) {
                 if (tvar[riadok][stlpec]) {
-                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, true, "red");
+                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, true, "red", true);
                     poradie++;
                 } else {
-                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, false, "green");
+                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, false, "green", false);
                     poradie++;
                 }
             }
         }
     }
-
+    
     public void vykresliKocky() {
         for (Kocka kocka: this.kocky) {
             kocka.update();
@@ -206,37 +204,155 @@ public class Blok {
         for (Kocka kocka: this.kocky) {
             kocka.zmenFarbuKocky("white");
             kocka = null;
+            //pouzit klasicky for loop
         }
     }
-
-    public void posunHore() {
-        for (Kocka kocka: this.kocky) {
-            kocka.posunKockyHore();
-            kocka.update();
+    
+    //down = D, up = U, left = L, right = R
+    public boolean kontrolaPohybu(char smer) {
+        boolean pohyb = true;
+        switch(smer){ 
+            case 'D':
+                int i = 0;
+                for (Kocka kocka : this.kocky) {
+                    if (kocka.getZobraz()) {
+                        i++;
+                        System.out.println(i);
+                        int x = kocka.getX();
+                        int y = kocka.getY();
+                        if (y == this.pocetRiadkovPlochy-3) {
+                            pohyb = false;
+                            break;
+                        }
+                        
+                        if (this.polozeneKocky == null) {
+                            break;
+                        }
+                        
+                        else {
+                            for (Kocka polozenaKocka : this.polozeneKocky){
+                                if ((kocka.getY()+1 == polozenaKocka.getY()) && (kocka.getX() == polozenaKocka.getX())) {
+                                    System.out.print("je tam kocka, ");
+                                    pohyb = false;
+                                    return pohyb;
+                                }
+                                else{
+                                    System.out.print("idem dalej, ");
+                                    pohyb = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+                
+            case 'L':
+                for (Kocka kocka : this.kocky) {
+                    int x = kocka.getX();
+                    int y = kocka.getY();
+                    System.out.print(x+" "+y+", ");
+                    if (kocka.getZobraz()) {
+                        if (x == 0){
+                            pohyb = false;
+                            break;
+                        }
+                        
+                        if (this.polozeneKocky == null) {
+                            break;
+                        }
+                        
+                        else {
+                            for (Kocka polozenaKocka : this.polozeneKocky){
+                                if ((kocka.getX()-1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
+                                    pohyb = false;
+                                    return pohyb;
+                                }
+                                else{
+                                    pohyb = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+                
+            case 'R':
+               for (Kocka kocka : this.kocky) {
+                    int x = kocka.getX();
+                    int y = kocka.getY();
+                    System.out.print(x+" "+y+", ");
+                    if (kocka.getZobraz()) {
+                        if (x == this.pocetStlpcovPlochy-1){
+                            pohyb = false;
+                            break;
+                        }
+                        if (this.polozeneKocky == null) {
+                            break;
+                        }
+                        
+                        else {
+                            for (Kocka polozenaKocka : this.polozeneKocky){
+                                if ((kocka.getX()+1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
+                                    pohyb = false;
+                                    return pohyb;
+                                }
+                                else{
+                                    pohyb = true;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                break;
+                
+            case 'U':
+                break;
         }
+        return pohyb;
     }
-
+    
+    public void setPolozeneKocky(ArrayList < Kocka > zoznamKociek){
+        this.polozeneKocky = zoznamKociek;
+    }
+    
     public void posunDole() {
-        for (Kocka kocka: this.kocky) {
-            if (kocka.getY() < this.pocetRiadkovPlochy - 1) {
-                kocka.posunKockyDole();
-                kocka.update();
+        this.pohybBlokuDole = kontrolaPohybu('D');
+        if(this.pohybBlokuDole){
+            for (Kocka kocka: this.kocky) {
+                    kocka.posunKockyDole();
+                    kocka.update();
             }
-            continue;
         }
     }
 
     public void posunVlavo() {
-        for (Kocka kocka: this.kocky) {
-            kocka.posunKockyVlavo();
-            kocka.update();
+        this.pohybBlokuDole = kontrolaPohybu('L');
+        if(this.pohybBlokuDole){
+            for (Kocka kocka: this.kocky) {
+                kocka.posunKockyVlavo();
+                kocka.update();
+            }
         }
     }
 
     public void posunVpravo() {
-        for (Kocka kocka: this.kocky) {
-            kocka.posunKockyVpravo();
-            kocka.update();
+        this.pohybBlokuDole = kontrolaPohybu('R');
+        if(this.pohybBlokuDole){
+            for (Kocka kocka: this.kocky) {
+                kocka.posunKockyVpravo();
+                kocka.update();
+            }
+        }
+    }
+    
+    public void posunHore() {
+        this.pohybBlokuDole = kontrolaPohybu('U');
+        if(this.pohybBlokuDole){
+            for (Kocka kocka: this.kocky) {
+                kocka.posunKockyHore();
+                kocka.update();
+            }
         }
     }
 
