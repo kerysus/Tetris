@@ -74,8 +74,8 @@ public class Plocha {
 
     public void vytvorBlok() {
         Random random = new Random();
-        int randomCislo = random.nextInt((7 - 1) + 1) + 1;
-        this.spravovanyBlok = new Blok(2, 2, randomCislo, this.riadky, this.stlpce);
+        int randomTvar = random.nextInt((7 - 1) + 1) + 1;
+        this.spravovanyBlok = new Blok(2, 2, randomTvar, this.riadky, this.stlpce);
         this.zoznamBlokov.add(this.spravovanyBlok);
         this.updatePoleKociek(this.spravovanyBlok);
         this.nespravujOstatneBloky();
@@ -135,9 +135,6 @@ public class Plocha {
             } else {
                 this.poleKociek[kocka.getY()][kocka.getX()].setJeBlok(false);
             }
-            //tuna to treba spravit pre blok ked sa znici, lebo hodnoty budu zmene na stale na true
-            //pred znicenim bloku treba nastavit jeho kockam ze nie su blok a updatenut znovu
-            //a taktiez je nutne nastavit updatovanie po kazdom pohybu bloku asi (bruh)
         }
     }
 
@@ -149,6 +146,15 @@ public class Plocha {
             System.out.println("");
         }
         System.out.println("-------------------------------------------------------------");
+    }
+    
+    public void tik(){
+        if (this.spravovanyBlok.getDalsiBlok()){
+            this.vytvorBlok();
+        }
+        else{
+            this.posunBlokDole();
+        }
     }
 
 }

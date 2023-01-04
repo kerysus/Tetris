@@ -24,8 +24,8 @@ public class Manazer {
     private ArrayList<Object> spravovaneObjekty;
     private ArrayList<Integer> vymazaneObjekty;
     private long oldTick;
-    private static final long TICK_LENGTH = 50000000;
-    
+    private static final long TICK_LENGTH = 950000000;
+  
     private class ManazerKlaves extends KeyAdapter {
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_DOWN) {

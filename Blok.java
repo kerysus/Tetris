@@ -9,6 +9,9 @@ public class Blok {
     private int pocetStlpcovPlochy;
     private boolean pohybBlokuDole;
     private ArrayList < Kocka > polozeneKocky;
+    private int dlzkaBloku;
+    private int vyskaBloku;
+    private int pohybCount;
     
     private boolean[][] blokO = {
         {
@@ -138,30 +141,44 @@ public class Blok {
         }
     };
 
-    public Blok(int riadok, int stlpec, int cislo, int pocetRiadkovPlochy, int pocetStlpcovPlochy) {
+    public Blok(int riadok, int stlpec, int randomTvar, int pocetRiadkovPlochy, int pocetStlpcovPlochy) {
         this.pocetRiadkovPlochy = pocetRiadkovPlochy;
         this.pocetStlpcovPlochy = pocetStlpcovPlochy;
-        switch (cislo) {
+        switch (randomTvar) {
             case 1:
                 this.tvar = blokO;
+                this.dlzkaBloku = 2;
+                this.vyskaBloku = 2;
                 break;
             case 2:
                 this.tvar = blokI;
+                this.dlzkaBloku = 4;
+                this.vyskaBloku = 1;
                 break;
             case 3:
                 this.tvar = blokL;
+                this.dlzkaBloku = 2;
+                this.vyskaBloku = 4;
                 break;
             case 4:
                 this.tvar = blokZ;
+                this.dlzkaBloku = 3;
+                this.vyskaBloku = 2;
                 break;
             case 5:
                 this.tvar = blokS;
+                this.dlzkaBloku = 2;
+                this.vyskaBloku = 3;
                 break;
             case 6:
                 this.tvar = blokJ;
+                this.dlzkaBloku = 2;
+                this.vyskaBloku = 4;
                 break;
             case 7:
                 this.tvar = blokT;
+                this.dlzkaBloku = 3;
+                this.vyskaBloku = 2;
                 break;
             default:
                 System.out.println("Chyba vo vybere tvaru");
@@ -169,6 +186,7 @@ public class Blok {
         this.pohybBlokuDole = true;
         this.kocky = new Kocka[this.tvar.length * this.tvar.length];
         this.vytvorBlok(this.tvar);
+        this.pohybCount = 0;
     }
 
     public boolean[][] getTvar() {
@@ -177,6 +195,15 @@ public class Blok {
 
     public Kocka[] getKocky() {
         return this.kocky;
+    }
+    
+    public boolean getDalsiBlok(){
+        if (this.pohybCount > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public void vytvorBlok(boolean[][] tvar) {
@@ -213,14 +240,12 @@ public class Blok {
         boolean pohyb = true;
         switch(smer){ 
             case 'D':
-                int i = 0;
+                pohyb = true;
                 for (Kocka kocka : this.kocky) {
                     if (kocka.getZobraz()) {
-                        i++;
-                        System.out.println(i);
                         int x = kocka.getX();
                         int y = kocka.getY();
-                        if (y == this.pocetRiadkovPlochy-3) {
+                        if (y == this.pocetRiadkovPlochy-1) {
                             pohyb = false;
                             break;
                         }
@@ -232,12 +257,10 @@ public class Blok {
                         else {
                             for (Kocka polozenaKocka : this.polozeneKocky){
                                 if ((kocka.getY()+1 == polozenaKocka.getY()) && (kocka.getX() == polozenaKocka.getX())) {
-                                    System.out.print("je tam kocka, ");
                                     pohyb = false;
                                     return pohyb;
                                 }
                                 else{
-                                    System.out.print("idem dalej, ");
                                     pohyb = true;
                                 }
                             }
@@ -247,10 +270,10 @@ public class Blok {
                 break;
                 
             case 'L':
+                pohyb = true;
                 for (Kocka kocka : this.kocky) {
                     int x = kocka.getX();
                     int y = kocka.getY();
-                    System.out.print(x+" "+y+", ");
                     if (kocka.getZobraz()) {
                         if (x == 0){
                             pohyb = false;
@@ -277,10 +300,10 @@ public class Blok {
                 break;
                 
             case 'R':
+               pohyb = true;
                for (Kocka kocka : this.kocky) {
                     int x = kocka.getX();
                     int y = kocka.getY();
-                    System.out.print(x+" "+y+", ");
                     if (kocka.getZobraz()) {
                         if (x == this.pocetStlpcovPlochy-1){
                             pohyb = false;
@@ -324,6 +347,9 @@ public class Blok {
                     kocka.update();
             }
         }
+        else{
+            this.pohybCount++;
+        }
     }
 
     public void posunVlavo() {
@@ -333,6 +359,9 @@ public class Blok {
                 kocka.posunKockyVlavo();
                 kocka.update();
             }
+        }
+        else{
+            this.pohybCount++;
         }
     }
 
@@ -344,6 +373,9 @@ public class Blok {
                 kocka.update();
             }
         }
+        else{
+            this.pohybCount++;
+        }
     }
     
     public void posunHore() {
@@ -353,6 +385,9 @@ public class Blok {
                 kocka.posunKockyHore();
                 kocka.update();
             }
+        }
+        else{
+            this.pohybCount++;
         }
     }
 
