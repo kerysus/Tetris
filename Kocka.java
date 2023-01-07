@@ -26,7 +26,7 @@ public class Kocka {
         this.stvorec.zmenFarbu(farba);
         this.jeBlok = jeBlok;
         this.zobraz = zobraz;
-        if(zobraz){
+        if (zobraz) {
             this.stvorec.zobraz();
         }
         this.pohybKocky = true;
@@ -44,11 +44,11 @@ public class Kocka {
         return this.jeBlok;
     }
     
-    public boolean getZobraz(){
+    public boolean getZobraz() {
         return this.zobraz;
     }
     
-    public boolean getPohybKocky(){
+    public boolean getPohybKocky() {
         return this.pohybKocky;
     }
 
@@ -56,20 +56,20 @@ public class Kocka {
         this.jeBlok = hodnota;
     }
     
-    public void setPohybKocky(boolean hodnota){
+    public void setPohybKocky(boolean hodnota) {
         this.pohybKocky = hodnota;
     }
-
-    public void update() {
-        if (this.zobraz){
-            this.stvorec.zobraz();
-        }
-    }
-
-    public void zmenFarbuKocky(String farba) {
+    
+    public void setFarbaKocky(String farba) {
         this.stvorec.zmenFarbu(farba);
     }
 
+    public void update() {
+        if (this.zobraz) {
+            this.stvorec.zobraz();
+        }
+    }
+    
     public void posunKockyHore() {
         this.y -= 1;
         this.stvorec.posunZvisle(-this.sirka);

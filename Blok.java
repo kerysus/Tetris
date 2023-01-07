@@ -12,7 +12,8 @@ public class Blok {
     private int dlzkaBloku;
     private int vyskaBloku;
     private int pohybCount;
-    
+    private String farba;
+
     private boolean[][] blokO = {
         {
             true,
@@ -141,7 +142,7 @@ public class Blok {
         }
     };
 
-    public Blok(int riadok, int stlpec, int randomTvar, int pocetRiadkovPlochy, int pocetStlpcovPlochy) {
+    public Blok(int riadok, int stlpec, int randomTvar, int pocetRiadkovPlochy, int pocetStlpcovPlochy, String farba) {
         this.pocetRiadkovPlochy = pocetRiadkovPlochy;
         this.pocetStlpcovPlochy = pocetStlpcovPlochy;
         switch (randomTvar) {
@@ -183,6 +184,7 @@ public class Blok {
             default:
                 System.out.println("Chyba vo vybere tvaru");
         }
+        this.farba = farba;
         this.pohybBlokuDole = true;
         this.kocky = new Kocka[this.tvar.length * this.tvar.length];
         this.vytvorBlok(this.tvar);
@@ -196,14 +198,9 @@ public class Blok {
     public Kocka[] getKocky() {
         return this.kocky;
     }
-    
-    public boolean getDalsiBlok(){
-        if (this.pohybCount > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+
+    public boolean getDalsiBlok() {
+        return this.pohybCount > 0;
     }
 
     public void vytvorBlok(boolean[][] tvar) {
@@ -211,7 +208,7 @@ public class Blok {
         for (int riadok = 0; riadok < tvar.length; riadok++) {
             for (int stlpec = 0; stlpec < tvar[riadok].length; stlpec++) {
                 if (tvar[riadok][stlpec]) {
-                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, true, "red", true);
+                    this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, true, this.farba, true);
                     poradie++;
                 } else {
                     this.kocky[poradie] = new Kocka(stlpec + this.lastX, riadok + this.lastY, false, "green", false);
@@ -220,7 +217,7 @@ public class Blok {
             }
         }
     }
-    
+
     public void vykresliKocky() {
         for (Kocka kocka: this.kocky) {
             kocka.update();
@@ -228,39 +225,35 @@ public class Blok {
     }
 
     public void znicBlok(boolean[][] blok) {
-        for (Kocka kocka: this.kocky) {
-            kocka.zmenFarbuKocky("white");
-            kocka = null;
-            //pouzit klasicky for loop
+        for (int i = 0; i < this.kocky.length; i++) {
+            this.kocky[i].setFarbaKocky("white");
+            this.kocky[i] = null;
         }
     }
-    
+
     //down = D, up = U, left = L, right = R
     public boolean kontrolaPohybu(char smer) {
         boolean pohyb = true;
-        switch(smer){ 
+        switch (smer) {
             case 'D':
                 pohyb = true;
-                for (Kocka kocka : this.kocky) {
+                for (Kocka kocka: this.kocky) {
                     if (kocka.getZobraz()) {
                         int x = kocka.getX();
                         int y = kocka.getY();
-                        if (y == this.pocetRiadkovPlochy-1) {
+                        if (y == this.pocetRiadkovPlochy - 1) {
                             pohyb = false;
                             break;
                         }
-                        
+
                         if (this.polozeneKocky == null) {
                             break;
-                        }
-                        
-                        else {
-                            for (Kocka polozenaKocka : this.polozeneKocky){
-                                if ((kocka.getY()+1 == polozenaKocka.getY()) && (kocka.getX() == polozenaKocka.getX())) {
+                        } else {
+                            for (Kocka polozenaKocka: this.polozeneKocky) {
+                                if ((kocka.getY() + 1 == polozenaKocka.getY()) && (kocka.getX() == polozenaKocka.getX())) {
                                     pohyb = false;
                                     return pohyb;
-                                }
-                                else{
+                                } else {
                                     pohyb = true;
                                 }
                             }
@@ -268,29 +261,26 @@ public class Blok {
                     }
                 }
                 break;
-                
+
             case 'L':
                 pohyb = true;
-                for (Kocka kocka : this.kocky) {
+                for (Kocka kocka: this.kocky) {
                     int x = kocka.getX();
                     int y = kocka.getY();
                     if (kocka.getZobraz()) {
-                        if (x == 0){
+                        if (x == 0) {
                             pohyb = false;
                             break;
                         }
-                        
+
                         if (this.polozeneKocky == null) {
                             break;
-                        }
-                        
-                        else {
-                            for (Kocka polozenaKocka : this.polozeneKocky){
-                                if ((kocka.getX()-1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
+                        } else {
+                            for (Kocka polozenaKocka: this.polozeneKocky) {
+                                if ((kocka.getX() - 1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
                                     pohyb = false;
                                     return pohyb;
-                                }
-                                else{
+                                } else {
                                     pohyb = true;
                                 }
                             }
@@ -298,105 +288,89 @@ public class Blok {
                     }
                 }
                 break;
-                
+
             case 'R':
-               pohyb = true;
-               for (Kocka kocka : this.kocky) {
+                pohyb = true;
+                for (Kocka kocka: this.kocky) {
                     int x = kocka.getX();
                     int y = kocka.getY();
                     if (kocka.getZobraz()) {
-                        if (x == this.pocetStlpcovPlochy-1){
+                        if (x == this.pocetStlpcovPlochy - 1) {
                             pohyb = false;
                             break;
                         }
                         if (this.polozeneKocky == null) {
                             break;
-                        }
-                        
-                        else {
-                            for (Kocka polozenaKocka : this.polozeneKocky){
-                                if ((kocka.getX()+1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
+                        } else {
+                            for (Kocka polozenaKocka: this.polozeneKocky) {
+                                if ((kocka.getX() + 1 == polozenaKocka.getX()) && (kocka.getY() == polozenaKocka.getY())) {
                                     pohyb = false;
                                     return pohyb;
-                                }
-                                else{
+                                } else {
                                     pohyb = true;
                                 }
                             }
                         }
-                        
+
                     }
                 }
                 break;
-                
+
             case 'U':
                 break;
         }
         return pohyb;
     }
-    
-    public void setPolozeneKocky(ArrayList < Kocka > zoznamKociek){
+
+    public void setPolozeneKocky(ArrayList < Kocka > zoznamKociek) {
         this.polozeneKocky = zoznamKociek;
     }
-    
+
     public void posunDole() {
-        this.pohybBlokuDole = kontrolaPohybu('D');
-        if(this.pohybBlokuDole){
+        this.pohybBlokuDole = this.kontrolaPohybu('D');
+        if (this.pohybBlokuDole) {
             for (Kocka kocka: this.kocky) {
-                    kocka.posunKockyDole();
-                    kocka.update();
+                kocka.posunKockyDole();
+                kocka.update();
             }
-        }
-        else{
+        } else {
             this.pohybCount++;
         }
     }
 
     public void posunVlavo() {
-        this.pohybBlokuDole = kontrolaPohybu('L');
-        if(this.pohybBlokuDole){
+        this.pohybBlokuDole = this.kontrolaPohybu('L');
+        if (this.pohybBlokuDole) {
             for (Kocka kocka: this.kocky) {
                 kocka.posunKockyVlavo();
                 kocka.update();
             }
-        }
-        else{
+        } else {
             this.pohybCount++;
         }
     }
 
     public void posunVpravo() {
-        this.pohybBlokuDole = kontrolaPohybu('R');
-        if(this.pohybBlokuDole){
+        this.pohybBlokuDole = this.kontrolaPohybu('R');
+        if (this.pohybBlokuDole) {
             for (Kocka kocka: this.kocky) {
                 kocka.posunKockyVpravo();
                 kocka.update();
             }
-        }
-        else{
-            this.pohybCount++;
-        }
-    }
-    
-    public void posunHore() {
-        this.pohybBlokuDole = kontrolaPohybu('U');
-        if(this.pohybBlokuDole){
-            for (Kocka kocka: this.kocky) {
-                kocka.posunKockyHore();
-                kocka.update();
-            }
-        }
-        else{
+        } else {
             this.pohybCount++;
         }
     }
 
-    public void vypis(boolean[][] thingy) {
-        for (int riadok = 0; riadok < 3; riadok++) {
-            for (int stlpec = 0; stlpec < 3; stlpec++) {
-                System.out.print(thingy[riadok][stlpec] + " | ");
+    public void posunHore() {
+        this.pohybBlokuDole = this.kontrolaPohybu('U');
+        if (this.pohybBlokuDole) {
+            for (Kocka kocka: this.kocky) {
+                kocka.posunKockyHore();
+                kocka.update();
             }
-            System.out.println("");
+        } else {
+            this.pohybCount++;
         }
     }
 
