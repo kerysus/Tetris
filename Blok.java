@@ -1,19 +1,33 @@
 import java.util.ArrayList;
+/**
+ * Táto trieda slúži na vytvorenie bloku z kociek využitím triedy Kocka().
+ * Pri privátnych atribútoch "blokO", "blokI", "blokL", "blokZ", "blokJ", "blokJ", "blokT" som využil kód autora "Melinda Green" zo stránky https://superliminal.com/tetris/Tetris.java
+ * 
+ * @author Marek Kerata
+ * @version 7.1.2023
+ */
 public class Blok {
     private int typBloku;
     private int lastX = 3;
     private int lastY = 1;
-    private Kocka[] kocky;
-    private boolean[][] tvar;
-    private int pocetRiadkovPlochy;
-    private int pocetStlpcovPlochy;
-    private boolean pohybBlokuDole;
-    private ArrayList < Kocka > polozeneKocky;
     private int dlzkaBloku;
     private int vyskaBloku;
     private int pohybCount;
+    private int pocetRiadkovPlochy;
+    private int pocetStlpcovPlochy;
+    
+    private boolean pohybBlokuDole;
+    private boolean[][] tvar;
+    
     private String farba;
+    
+    private ArrayList < Kocka > polozeneKocky;
+    private Kocka[] kocky;
 
+    // O tom ako môžem ukladať blok a ako ho vykreslit je viacero spôsobov a chcel som mať taký, ktorému najlepšie rozumiem. 
+    // Mal som viacero vlastných nápadov, ale nakoniec sa mi zapáčil spôsob ako tento problém vyriešil autor na tejto stránke:
+    // https://superliminal.com/tetris/Tetris.java
+    
     private boolean[][] blokO = {
         {
             true,
@@ -141,10 +155,14 @@ public class Blok {
             false
         }
     };
-
+    
+    /**
+     * Konštruktor triedy. Nastaví základné hodnoty ako polohu, tvar a farbu bloku.
+     */
     public Blok(int riadok, int stlpec, int randomTvar, int pocetRiadkovPlochy, int pocetStlpcovPlochy, String farba) {
         this.pocetRiadkovPlochy = pocetRiadkovPlochy;
         this.pocetStlpcovPlochy = pocetStlpcovPlochy;
+        
         switch (randomTvar) {
             case 1:
                 this.tvar = blokO;
@@ -191,18 +209,37 @@ public class Blok {
         this.pohybCount = 0;
     }
 
+    /**
+     *  Vráti hodnotu o tom aký tvar má blok.
+     */
     public boolean[][] getTvar() {
         return this.tvar;
     }
-
+    
+    /**
+     *  Vráti všetky kocky, ktoré tvoria tento blok.
+     */
     public Kocka[] getKocky() {
         return this.kocky;
     }
 
+    /**
+     *  Vráti hodnotu o tom či môžme vytvoriť nový blok.
+     */
     public boolean getDalsiBlok() {
         return this.pohybCount > 0;
     }
-
+    
+    /**
+     *  Setter na atribút triedy. Vráti zoznam už položených kociek na ploche. Túto informácia využíva pri kontrole pohybu.
+     */
+    public void setPolozeneKocky(ArrayList < Kocka > zoznamKociek) {
+        this.polozeneKocky = zoznamKociek;
+    }
+    
+    /**
+     *  Vytvorí nový blok pomocou kociek z triedy Kocka.
+     */
     public void vytvorBlok(boolean[][] tvar) {
         int poradie = 0;
         for (int riadok = 0; riadok < tvar.length; riadok++) {
@@ -218,20 +255,29 @@ public class Blok {
         }
     }
 
+    /**
+     *  Zobrazí všetky kocky bloku.
+     */
     public void vykresliKocky() {
         for (Kocka kocka: this.kocky) {
             kocka.update();
         }
     }
 
+    /**
+     *  Zničí blok tým že všetky kocky prefarbí a nastaví ich na hodnotu null.
+     */
     public void znicBlok(boolean[][] blok) {
         for (int i = 0; i < this.kocky.length; i++) {
             this.kocky[i].setFarbaKocky("white");
             this.kocky[i] = null;
         }
     }
-
-    //down = D, up = U, left = L, right = R
+    
+    /**
+     *  Podľa hodnoty parametra "smer" kontroluje či sa blok do daného smeru môže posunúť. 
+     *  down = D, up = U, left = L, right = R
+     */
     public boolean kontrolaPohybu(char smer) {
         boolean pohyb = true;
         switch (smer) {
@@ -315,17 +361,13 @@ public class Blok {
                     }
                 }
                 break;
-
-            case 'U':
-                break;
         }
         return pohyb;
     }
-
-    public void setPolozeneKocky(ArrayList < Kocka > zoznamKociek) {
-        this.polozeneKocky = zoznamKociek;
-    }
-
+    
+    /**
+     *  Posunie blok dole.
+     */
     public void posunDole() {
         this.pohybBlokuDole = this.kontrolaPohybu('D');
         if (this.pohybBlokuDole) {
@@ -337,7 +379,10 @@ public class Blok {
             this.pohybCount++;
         }
     }
-
+    
+    /**
+     *  Posunie blok vľavo.
+     */
     public void posunVlavo() {
         this.pohybBlokuDole = this.kontrolaPohybu('L');
         if (this.pohybBlokuDole) {
@@ -349,7 +394,10 @@ public class Blok {
             this.pohybCount++;
         }
     }
-
+    
+    /**
+     *  Posunie blok vpravo.
+     */
     public void posunVpravo() {
         this.pohybBlokuDole = this.kontrolaPohybu('R');
         if (this.pohybBlokuDole) {
@@ -361,19 +409,10 @@ public class Blok {
             this.pohybCount++;
         }
     }
-
-    public void posunHore() {
-        this.pohybBlokuDole = this.kontrolaPohybu('U');
-        if (this.pohybBlokuDole) {
-            for (Kocka kocka: this.kocky) {
-                kocka.posunKockyHore();
-                kocka.update();
-            }
-        } else {
-            this.pohybCount++;
-        }
-    }
-
+    
+    /**
+     *  Otáča blok v protismere hodinových ručičiek.
+     */
     public void rotuj() {
         boolean[][] novyBlok = new boolean[this.tvar.length][this.tvar.length];
         int counter = this.tvar.length - 1;

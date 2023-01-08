@@ -1,3 +1,9 @@
+/**
+ * Táto trieda slúži na vytvorenie čierneho pozadia hry, ktoré sa nachádza za kockami.
+ *
+ * @author Marek Kerata
+ * @version 7.1.2023
+ */
 public class Pozadie {
     private Obdlznik pozadieHry;
     private Obdlznik pozadiePlochy;
@@ -15,6 +21,9 @@ public class Pozadie {
     private int polohaPozadiaPlochyX;
     private int polohaPozadiaPlochyY;
 
+    /**
+     * Konštruktor triedy, ktorý nastaví rozmery a farby pozadia.
+     */
     public Pozadie() {
 
         //farba pozadia hry je za stvorcekami
@@ -24,20 +33,27 @@ public class Pozadie {
         this.zmenFarbuPozadi("black", "brown");
         this.zmenRozmeryPozadia(210, 410, 0, 0);
         this.zmenPolohyPozadi(-5, -5, -20, -20);
-        this.pozadiePlochy.zobraz();
-        this.pozadieHry.zobraz();
     }
 
+    /**
+     * Zmení farbu pozadia od parametra.
+     */
     public void zmenFarbuPozadi(String farbaHry, String farbaPlochy) {
         this.pozadieHry.zmenFarbu(farbaHry);
         this.pozadiePlochy.zmenFarbu(farbaPlochy);
     }
-
+    
+    /**
+     * Zmení rozmery pozadia od parametra.
+     */
     public void zmenRozmeryPozadia(int rozmeryPozadiaHryX, int rozmeryPozadiaHryY, int rozmeryPozadiaPlochyX, int rozmeryPozadiaPlochyY) {
         this.pozadieHry.zmenStrany(rozmeryPozadiaHryX, rozmeryPozadiaHryY);
         this.pozadiePlochy.zmenStrany(rozmeryPozadiaPlochyX, rozmeryPozadiaPlochyY);
     }
-
+    
+    /**
+     * Zmení polohu pozadia od parametra.
+     */
     public void zmenPolohyPozadi(int posunPozadiaHryX, int posunPozadiaHryY, int posunPozadiaPlochyX, int posunPozadiaPlochyY) {
         this.pozadieHry.pomalyPosunVodorovne(posunPozadiaHryX);
         this.pozadieHry.posunZvisle(posunPozadiaHryY);
@@ -45,10 +61,12 @@ public class Pozadie {
         this.pozadiePlochy.pomalyPosunVodorovne(posunPozadiaPlochyX);
         this.pozadiePlochy.posunZvisle(posunPozadiaPlochyY);
     }
-
+    
+    /**
+     * Volá metódy na vykreslenie pozadia.
+     */
     public void vykresliPozadie() {
         this.pozadiePlochy.zobraz();
         this.pozadieHry.zobraz();
     }
-
 }

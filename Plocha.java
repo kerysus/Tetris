@@ -2,23 +2,29 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Write a description of class Plocha here.
+ * Táto trieda slúži na vykreslenie plochy na ktorej spravuje jednotlivé bloky.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Marek Kerata
+ * @version 7.1 2023
  */
 
 public class Plocha {
-    // instance variables - replace the example below with your own
     private int riadky;
     private int stlpce;
+    
+    private boolean kontrolaRiadku = false;
+    
     private Kocka[][] poleKociek;
     private ArrayList < Blok > zoznamBlokov;
     private Manazer manazer = new Manazer();
     private Blok spravovanyBlok;
     private ArrayList < Kocka > zoznamPolozenychKociek;
-    private boolean kontrolaRiadku = false;
-
+    private String[] zoznamFarieb = new String[]{"red", "blue", "green", "magenta"};
+    
+    /**
+     * Konštruktor triedy. Nastaví základné hodnoty ako polohu a farbu kocky, hodnoty o tom či je súčasťou bloku a či sa má táto kocka zobraziť.
+     * Na konci vytvorí jeden blok.
+     */
     public Plocha(int riadky, int stlpce) {
         this.manazer.spravujObjekt(this);
         this.riadky = riadky;
@@ -26,32 +32,62 @@ public class Plocha {
         this.zoznamBlokov = new ArrayList < Blok > ();
         this.zoznamPolozenychKociek = new ArrayList < Kocka > ();
         this.vytvorPlochu();
+        this.spravovanyBlok = new Blok(2, 2, 2, this.riadky, this.stlpce, "red");
+        this.zoznamBlokov.add(this.spravovanyBlok);
     }
-
+    
+    /**
+     * Getter na atribút "poleKociek".
+     */
     public Kocka[][] getPoleKociek() {
         return this.poleKociek;
     }
-
+    
+    /**
+     * Getter na atribút "zoznamBlokov".
+     */
     public ArrayList < Blok > getZoznamBlokov() {
         return this.zoznamBlokov;
     }
-
+    
+    /**
+     * Vráti prvý blok zo zoznamu blokov.
+     */
     public Blok getPrvyZoZoznamuBlokov() {
         return this.getZoznamBlokov().get(0);
     }
-
+    
+    /**
+     * Vráti posledný blok zo zoznamu blokov.
+     */
     public Blok getPoslednyZoZoznamuBlokov() {
         return this.zoznamBlokov.get(this.zoznamBlokov.size() - 1);
     }
-
+    
+    /**
+     * Setter na atribút "poleKociek".
+     */
     public void setPoleKociek(Kocka[][] listKociek) {
         this.poleKociek = listKociek;
     }
-
+    
+    /**
+     * Setter na atribút "zoznamBlokov".
+     */
     public void setZoznamBlokov(ArrayList < Blok > listBlokov) {
         this.zoznamBlokov = listBlokov;
     }
+    
+    /**
+     * Setter na atribút "polozeneKocky" aktuálne spravovaného bloku.
+     */
+    public void setPolozeneKockyBlokov(ArrayList < Kocka > zoznamKociek) {
+        this.spravovanyBlok.setPolozeneKocky(zoznamKociek);
+    }
 
+    /**
+     * Vykreslí hraciu plochu pomocou kociek.
+     */
     public void vytvorPlochu() {
         this.poleKociek = new Kocka[this.riadky][this.stlpce];
         for (int stlpec = 0; stlpec < riadky; stlpec++) {
@@ -60,16 +96,23 @@ public class Plocha {
             }
         }
     }
-
+    
+    /**
+     * Vytvorí náhodný blok, pridá ho do zoznamu blokov.
+     */
     public void vytvorBlok() {
         Random random = new Random();
         int randomTvar = random.nextInt((7 - 1) + 1) + 1;
-        this.spravovanyBlok = new Blok(2, 2, randomTvar, this.riadky, this.stlpce, "red");
+        int randomFarba = random.nextInt(this.zoznamFarieb.length);
+        this.spravovanyBlok = new Blok(2, 2, randomTvar, this.riadky, this.stlpce, this.zoznamFarieb[randomFarba]);
         this.zoznamBlokov.add(this.spravovanyBlok);
         this.updatePoleKociek(this.spravovanyBlok);
         this.nespravujOstatneBloky();
     }
-
+    
+    /**
+     * Prestane spravovať ostatné bloky aby nedostávali input z klávesnice.
+     */
     public void nespravujOstatneBloky() {
         if (this.getZoznamBlokov().size() == 1) {
             return;
@@ -78,7 +121,10 @@ public class Plocha {
         this.pridajDoPolozenychKociek(poslednyBlok);
         this.manazer.prestanSpravovatObjekt(poslednyBlok);
     }
-
+    
+    /**
+     * Pridá kocky do zoznamu ako položené s ktorými sa nedá pohnúť.
+     */
     public void pridajDoPolozenychKociek(Blok blok) {
         for (Kocka kocka: blok.getKocky()) {
             if (kocka.getZobraz()) {
@@ -88,35 +134,41 @@ public class Plocha {
         this.setPolozeneKockyBlokov(this.zoznamPolozenychKociek);
     }
 
-    public void setPolozeneKockyBlokov(ArrayList < Kocka > zoznamKociek) {
-        this.spravovanyBlok.setPolozeneKocky(zoznamKociek);
-    }
-
-    public void posunBlokHore() {
-        this.spravovanyBlok.posunHore();
-        this.updatePoleKociek(this.spravovanyBlok);
-    }
-
+    /**
+     * Volá metódy na posun bloku dole.
+     */
     public void posunBlokDole() {
         this.spravovanyBlok.posunDole();
         this.updatePoleKociek(this.spravovanyBlok);
     }
-
+    
+    /**
+     * Volá metódy na posun bloku vlavo.
+     */
     public void posunBlokVlavo() {
         this.spravovanyBlok.posunVlavo();
         this.updatePoleKociek(this.spravovanyBlok);
     }
-
+    
+    /**
+     * Volá metódy na posun bloku vpravo.
+     */
     public void posunBlokVpravo() {
         this.spravovanyBlok.posunVpravo();
         this.updatePoleKociek(this.spravovanyBlok);
     }
 
+    /**
+     * Volá metódy na otáčanie bloku.
+     */
     public void rotujBlok() {
         this.spravovanyBlok.rotuj();
         this.updatePoleKociek(this.spravovanyBlok);
     }
 
+    /**
+     * Aktualizuje hodnoty a tým znova vykreslí kocky.
+     */
     public void updatePoleKociek(Blok blok) {
         for (Kocka kocka: blok.getKocky()) {
             if (kocka.getJeBlok()) {
@@ -127,16 +179,9 @@ public class Plocha {
         }
     }
 
-    public void vypisPolaKociek() {
-        for (int riadok = 0; riadok < this.poleKociek.length; riadok++) {
-            for (int prvok = 0; prvok < this.poleKociek[riadok].length; prvok++) {
-                System.out.print(this.poleKociek[riadok][prvok].getJeBlok() + ", ");
-            }
-            System.out.println("");
-        }
-        System.out.println("-------------------------------------------------------------");
-    }
-
+    /**
+     * Skontroluje riadok či je zaplnený kockami.
+     */
     public void skontrolujRiadok() {
         this.kontrolaRiadku = true;
         int riadok = 19;
@@ -147,13 +192,15 @@ public class Plocha {
                 if (pocet >= 8) {
                     this.vycistiRiadok();
                 }
-                System.out.println(pocet);
             }
 
         }
         this.kontrolaRiadku = false;
     }
 
+    /**
+     * Vyčistí riadok ak je plný.
+     */
     public void vycistiRiadok() {
         int riadok = 19;
         int pocet = 0;
@@ -162,12 +209,15 @@ public class Plocha {
             this.poleKociek[riadok][stlpec].setFarbaKocky("white");
         }
     }
-
+    
+    /**
+     * Tik pravidelne posiela správy objektom.
+     */
     public void tik() {
         if (!this.kontrolaRiadku) {
             if (this.spravovanyBlok.getDalsiBlok()) {
                 this.vytvorBlok();
-                this.skontrolujRiadok();
+                //this.skontrolujRiadok();
             } else {
                 this.posunBlokDole();
             }

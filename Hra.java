@@ -1,8 +1,8 @@
 /**
- * Write a description of class Plocha here.
+ * Táto trieda slúži na spustenie samotnej hry, kde volá metódy na vykreslenie.
  *
  * @author Marek Kerata
- * @version (a version number or a date)
+ * @version 7.1.2023
  */
 public class Hra {
     private Pozadie pozadie;
@@ -10,37 +10,36 @@ public class Hra {
     private int pocetRiadkov;
     private int pocetStlpcov;
 
+    /**
+     * Konštruktor triedy, ktorý nastaví rozmery plochy a spustí metódu na spustenie hry.
+     */
     public Hra() {
         this.pocetRiadkov = 20;
         this.pocetStlpcov = 10;
         this.spustiTetris();
     }
 
-    public Kocka[] getKockyPoslednehoBloku(Kocka[] zoznamKociek) {
-        return zoznamKociek;
-    }
-
+    /**
+     * Vytvorí nový objekt triedy Plocha, ktorý vykreslí hracú plochu.
+     */
     public void vytvorPlochu() {
         this.plocha = new Plocha(this.pocetRiadkov, this.pocetStlpcov);
     }
 
+    /**
+     *  Vytvorí nový objekt triedy Pozadie, ktorý vykreslí pozadie hry.
+     */
     public void nakresliPozadie() {
         this.pozadie = new Pozadie();
         this.pozadie.vykresliPozadie();
     }
 
-    public void vykresliVsetko() {
+    /**
+     *  Volá metódy na vytvorenie objektov tried Plocha a Pozadie, ktoré vykreslia celú hru.
+     */
+    public void spustiTetris() {
         this.nakresliPozadie();
         this.vytvorPlochu();
-    }
-
-    public void vypisHodnotyPola() {
-        this.plocha.vypisPolaKociek();
-    }
-
-    public void spustiTetris() {
-        this.vykresliVsetko();
-        this.plocha.vytvorBlok();
     }
 
 }

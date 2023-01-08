@@ -30,8 +30,6 @@ public class Manazer {
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_DOWN) {
                 Manazer.this.posliSpravu("posunBlokDole");
-            } else if (event.getKeyCode() == KeyEvent.VK_UP) {
-                Manazer.this.posliSpravu("posunBlokHore");
             } else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
                 Manazer.this.posliSpravu("posunBlokVlavo");
             } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -80,7 +78,6 @@ public class Manazer {
             } catch (IllegalAccessException e) {
                 this.doNothing();
             } catch (InvocationTargetException e) {
-                System.out.println("Chyba: " + e.getCause());
                 this.doNothing();
             }
         }
